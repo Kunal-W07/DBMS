@@ -1,0 +1,45 @@
+CREATE TABLE emp2(
+empid INT PRIMARY KEY,
+empname VARCHAR(50),
+empsalary INT,
+destigation VARCHAR(20)
+);
+
+CREATE TABLE bakup(
+empid INT,
+oldsalary INT,
+newsalary INT,
+salarydiff INT,
+CONSTRAINT fk_empp FOREIGN KEY(empid) REFERENCES emp2(empid)
+);
+
+INSERT INTO emp2(empid,empname,empsalary,destigation) VALUES (7,'om',55000,'CEO');
+SELECT * FROM emp2;
+
+CREATE OR REPLACE TRIGGER btri
+AFTER UPDATE OF empsalary ON emp2
+FOR EACH ROW
+WHEN (OLD.empsalary != NEW.empsalary)
+BEGIN
+
+ INSERT INTO bakup(empid ,oldsalary ,newsalary ,salarydiff)
+ VALUES(:OLD.empid,:OLD.empsalary,:NEW.empsalary,:NEW.empsalary-:OLD.empsalary);
+
+END;
+
+CREATE OR REPLACE TRIGGER tr2
+BEFORE DELETE ON emp2
+FOR EACH ROW
+BEGIN
+if :OLD.destigation ='CEO' THEN
+RAISE_APPLICATION_ERROR(-20001,'yuo cannot delete CEO');
+END IF;
+END;
+
+UPDATE emp2 SET empsalary = 1000000
+WHERE empid = 7;
+
+SELECT * FROM bakup;
+
+DELETE FROM emp2 
+WHERE empid = 7;
