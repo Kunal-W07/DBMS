@@ -42,7 +42,7 @@ db.Social_Media.insertMany([
 
 // 4. Display the user ids and Friends list of users who have more than 5 friends.
 
-db.Social_Media.find({No_of_Friends : {$gt : 5}},{User_Id : 1, Friends_List : 1 });
+db.Social_Media.find({ No_of_Friends: { $gt: 5 } }, { User_Id: 1, Friens_List: 1, _id: 0 });
 
 // 5. Display all users with no of posts in descending order.
 
