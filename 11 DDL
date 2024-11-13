@@ -72,3 +72,7 @@ SELECT * FROM Customer_Info;
 -- MySQL does not have a direct SEQUENCE object, but you can use AUTO_INCREMENT:
 
 ALTER TABLE Branch MODIFY BranchID INT AUTO_INCREMENT;
+
+-- 7. Create synonym ‘Branch_info’ for branch table.
+Create view Branch_info as 
+select * from Branch;
