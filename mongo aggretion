@@ -1,0 +1,37 @@
+db.createCollection("Movies_Data");
+
+// Sample data to insert
+const movies = [
+    { Movie_ID: 1, Movie_Name: "Inception", Director: "Christopher Nolan", Genre: "Sci-Fi", BoxOfficeCollection: 829895144 },
+    { Movie_ID: 2, Movie_Name: "The Dark Knight", Director: "Christopher Nolan", Genre: "Action", BoxOfficeCollection: 1004558444 },
+    { Movie_ID: 3, Movie_Name: "Interstellar", Director: "Christopher Nolan", Genre: "Sci-Fi", BoxOfficeCollection: 677716387 },
+    { Movie_ID: 4, Movie_Name: "Parasite", Director: "Bong Joon-ho", Genre: "Thriller", BoxOfficeCollection: 263201553 },
+    { Movie_ID: 5, Movie_Name: "Avatar", Director: "James Cameron", Genre: "Fantasy", BoxOfficeCollection: 2847246203 },
+    { Movie_ID: 6, Movie_Name: "Titanic", Director: "James Cameron", Genre: "Romance", BoxOfficeCollection: 2187463944 },
+    { Movie_ID: 7, Movie_Name: "Get Out", Director: "Jordan Peele", Genre: "Horror", BoxOfficeCollection: 255439561 },
+    { Movie_ID: 8, Movie_Name: "The Matrix", Director: "Lana Wachowski", Genre: "Sci-Fi", BoxOfficeCollection: 463517383 },
+    { Movie_ID: 9, Movie_Name: "The Godfather", Director: "Francis Ford Coppola", Genre: "Crime", BoxOfficeCollection: 246120974 },
+];
+db.Movies_Data.insertMany(movies);
+
+// 5. Create an index on field Movie_ID.
+
+db.Movies_Data.createIndex({Movie_ID :1});
+
+// Create an index on fields Movie_Name and Director.
+db.Movies_Data.createIndex({Movie_Name:1, Director:1});
+db.Movies_Data.getIndexes();
+
+// 7. Drop an index on field Movie_ID.
+db.Movies_Data.dropIndex({Movie_ID :1});
+db.Movies_Data.getIndexes();
+
+// 8. Drop an index on fields Movie_Name and Director.
+
+// db.Movies_Data.dropIndex({ Movie_Name: 1, Director: 1 })
+
+
+// 2. Display a list stating how many Movies are directed by each “Director”.
+db.Movies_Data.aggregate([
+  { $group: { _id: "$Director", Movies_Directed: { $sum: 1 } } }
+]);
